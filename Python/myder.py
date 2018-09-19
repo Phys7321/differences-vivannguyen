@@ -7,11 +7,8 @@ Created on Sun Sep  9 16:50:22 2018
 import numpy as np
 from numpy import array
 
-def simpleder(a):
-   # da = np.diff(a)
-    #db = np.diff(a)/np.diff(b) 
+def simpleder(a): 
     da = np.gradient(a)
-   # return array(da), array(db)
     return array(da)
 
 def forwardiff(f,a,b,N):
