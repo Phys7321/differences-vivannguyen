@@ -15,7 +15,7 @@ if ~isnumeric(x)
 end
 if ~isa(F,'function_handle')
     if isnumeric(F)
-      xc = chop(x); % method for data depends on how you assign dy to xc
+      xc = x(1:end-1); % xc = x(1:end-1) method for data depends on how you assign dy to xc
       dy = diff(F)./diff(x); 
       varargin{1} = 'data';
     else
@@ -35,12 +35,15 @@ switch varargin{1}
         xc = x(2:n);
     case 'cd'
         dy = (F(x(1:n-1)+0.5*dx) - F(x(1:n-1)-0.5*dx))./dx;
-        xc = chop(x);
+        xc = x(1:n-1);
+    case 'cd_cubic'
+        dy = ((1/24).*F(x(1:n-1)-(3/2).*dx) - (27/24).*F(x(1:n-1)-0.5*dx) + (27/24).*F(x(1:n-1)+0.5*dx) - (1/24).*F(x(1:n-1)+(3/2).*dx))./dx;
+        xc = x(1:n-1);       
     case 'ed'
         half = (F(x(1:n-1)+0.25*dx) - F(x(1:n-1)-0.25*dx))./(0.5*dx); 
         full = (F(x(1:n-1)+0.5*dx) - F(x(1:n-1)-0.5*dx))./dx;
         dy = (4/3).*half - (1/3).*full;
-        xc = chop(x);
+        xc = x(1:n-1);
     case 'data'
         return;
     otherwise
